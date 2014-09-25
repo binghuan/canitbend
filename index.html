@@ -1,8 +1,164 @@
 <!DOCTYPE html>
+<!--<html manifest="mycoffee.appcache">-->
 <html>
-  <head>
-  </head>
-  <body>
-    <p>Test</p>
-  </body>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+	<!--
+    <link rel="SHORTCUT ICON" href="icon/mycoffee.ico" >
+    <link rel="shortcut icon" sizes="128x128" href="icon/mycoffee-128.png">
+    <link rel="shortcut icon" sizes="196x196" href="icon/mycoffee-196.png">
+    <link rel="apple-touch-icon" href="icon/mycoffee-64.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="icon/mycoffee-76.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="icon/mycoffee-120.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="icon/mycoffee-152.png">
+    -->
+
+    <link rel="stylesheet" href="jquery.mobile-1.4.4.min.css" />
+
+    <title>Can it bend</title>
+    <style>
+        .ui-icon-pin {
+          background: url("images/pin.png") 50% 50% no-repeat;
+          background-size: 18px 18px;
+          width: 18px;
+          height: 18px;
+          box-shadow: none;
+          -webkit-box-shadow: none;
+        }
+
+        .page-map, #map-canvas {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+        }
+
+        .ui-listview>li span.wordwrap {
+            /* wrap long text and urls */
+            white-space: pre; /* CSS 2.0 */
+            white-space: pre-wrap; /* CSS 2.1 */
+            white-space: pre-line; /* CSS 3.0 */
+            white-space: -pre-wrap; /* Opera 4-6 */
+            white-space: -o-pre-wrap; /* Opera 7 */
+            white-space: -moz-pre-wrap; /* Mozilla */
+            word-wrap: break-word; /* IE 5+ */
+        }
+
+        .goTop2 {
+            background: url(images/totop.png) no-repeat 0 0;
+            background-size: contain;
+        }
+
+        .goTop {
+            width: 50px;
+            height: 44px;
+            display: block;
+            position: fixed;
+            bottom: 55px;
+            right: 20px;
+            text-indent: -5000px;
+            z-index: 999;
+        }
+
+
+		#container img {
+		   width: 100%;
+		}
+
+    </style>
+    <!--
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-11206621-5', 'auto');
+      ga('require', 'linkid', 'linkid.js');
+      ga('require', 'displayfeatures');
+      ga('send', 'pageview');
+    </script>
+    -->
+</head>
+<body>
+    <!-- main page -->
+    <div data-role="page" id='index'>
+        <div id="header" data-theme='b' data-role="header">
+			<a id='recover' class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-btn-icon-left ui-icon-recycle">Recover</a>
+            <h1>Can it bend?</h1>
+            <a id="pinButton" data-ajax="false" data-theme='a' class="ui-btn-right" data-icon="action"
+            href='javascript:(function(){var newUrl = "http://binghuan.herokuapp.com/pinToRedirection.html?url=" + location.href + "&icon=icon/mycoffee.png&fontColor=black&label=My Coffee"; console.log("navigate to " + newUrl); location.href = newUrl;})()'>Pin</a>
+
+            <div class="ui-grid-a" id="socialButtons">
+                <div class="ui-block-a">
+                    <!-- facebook -->
+                    <iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fbinghuan.github.io%2Fmycoffee%2F&amp;width&amp;layout=button_count&amp;action=like&amp;show_faces=false&amp;share=true&amp;height=21&amp;appId=333632073398417" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:21px;width:120px" allowTransparency="true"></iframe>
+                </div>
+                <div class="ui-block-b">
+                    <div class="ui-grid-a">
+                        <div class="ui-block-a">
+                            <!-- Line -->
+                            <span>
+                                <script type="text/javascript" src="//media.line.me/js/line-button.js?v=20140411" ></script>
+                                <script type="text/javascript">
+                                    new media_line_me.LineButton({"pc":false,"lang":"en","type":"a"});
+                                </script>
+                            </span>
+                        </div>
+                        <div class="ui-block-b">
+                            <!-- google+ -->
+                            <div class="g-plus" data-action="share" data-width="95" data-annotation="bubble" data-href="//binghuan.github.io/mycoffee/"></div>
+
+                            <script src="//apis.google.com/js/platform.js" async defer>
+                                {lang: 'zh-TW'}
+                            </script>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- <div data-role="content"> -->
+        <div class="ui-content" id="container">
+			<img id="phonePicture" src="images/smartphone.png">
+			<img id="fingerup" src="images/fingerup.png" style="position: fixed;top: 60px;right: 40%;width:40%;height:40%">
+			<img id="fingerdown" src="images/fingerdown.png" style="position: fixed;bottom: 60px;left: 40%;width:40%;height:40%">
+			<audio id="audiotrack" style="display:none" preload="auto">
+				<!--
+				<source src="sfx/sound1.ogg"  type="audio/ogg">
+				<source src="sfx/wrong.ogg" type="audio/ogg">
+				-->
+				<source src="sfx/sound1.wav"  type="audio/wav">
+				<source src="sfx/wrong.wav" type="audio/wav">
+
+				audio tag not supported.
+			</audio>
+        </div>
+
+		<!--
+        <a class="goTop goTop2" id="go2top" href="javascript:(function(){$('body, html').animate({scrollTop: 0}, 600);})()">go top</a>
+        -->
+        <div id="footer" data-role="footer" data-position='fixed' data-theme='b'>
+            <div>
+                <p id="auther_label" align="center">
+                    Powered by BH_Lin
+                </p>
+            </div>
+        </div>
+    </div>
+    <script src="jquery-1.11.1.min.js"></script>
+	<script src="jquery.mobile-1.4.4.min.js"></script>
+    <!--<script src="lib/mustache.js" type="text/javascript" charset="utf-8"></script>-->
+
+    <!--<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?key=&sensor=true"></script>
+    <script src="gmap.js" type="text/javascript" charset="utf-8"></script>
+    <script src="dataList.js"></script>-->
+    <script src="main.js"></script>
+
+</body>
 </html>
+
