@@ -1,4 +1,9 @@
 $(document).ready(function(){
+
+	$("#auther_label").click(function() {
+        window.open("http://studiobinghuan.blogspot.tw/?view=flipcard", "_blank");
+    });
+
 	var img = document.getElementById('phonePicture');
 	//img.height = (window.innerHeight - 20) +"px";;
 	img.style.height = (window.innerHeight - $("#footer").height() - $("#header").height() -  20) +"px";
