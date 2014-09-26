@@ -1,0 +1,23 @@
+CACHE MANIFEST
+# Version: 2014/09/26 update 1
+
+CACHE:
+sfx/sound1.wav
+sfx/wrong.wav
+icons/canitbend.ico
+icons/canitbend-120.png
+icons/canitbend-128.png
+icons/canitbend-152.png
+icons/canitbend-196.png
+icons/canitbend-64.png
+icons/canitbend-76.png
+images/ajax-loader.gif
+jquery-1.11.1.min.js
+jquery.mobile-1.4.4.min.js
+jquery.mobile-1.4.4.min.map
+jquery.mobile-1.4.4.min.css
+main.js
+index.html
+
+NETWORK:
+*
